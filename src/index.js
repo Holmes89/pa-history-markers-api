@@ -53,5 +53,5 @@ app.use(function(req, res, next) {
 });
 
 // And we're done! Start 'er up!
-console.log('Starting up! Visit 127.0.0.1:3000 to see the docs.');
-app.listen(3000);
+console.log('Starting up! Visit 127.0.0.1:8080 to see the docs.');
+app.listen(8080);
