@@ -20,7 +20,7 @@
     "q": "^1.0.1"
   },
   "devDependencies": {
-    "chai": "~1.9.0",
+      "chai": "~1.9.0",
     "event-stream": "3.1.x",
     "gulp": "3.8.x",
     "gulp-changed": "0.2.x",
