@@ -2,7 +2,7 @@
   "name": "historical-markers-api",
   "version": "1.0.0",
   "private": true,
-  "main": "src/index.js",
+  "main": "src/app.js",
   "engines": {
     "node": ">=0.10.0"
   },
@@ -38,6 +38,6 @@
   },
   "scripts": {
     "test": "mocha $(find test -name \"*.js\")",
-    "start": "node src/index.js"
+    "start": "node src/app.js"
   }
 }
