@@ -13,4 +13,6 @@ var schema = mongoose.Schema({
     markerText: String
 });
 
+schema.index({coordinates: '2dsphere'});
+
 module.exports = mongoose.model('Marker', schema);
