@@ -1,11 +1,18 @@
 // Dependencies
 var mongoose = require('mongoose');
 var Marker = require('./models/marker.js');
+var port = process.env.PORT || 8080;
+var host = process.env.HOST || "localhost";
 
 
 // Opens App Routes
 module.exports = function(app) {
 
+  app.get('/', function(req, res){
+    var links = [];
+    links.push(host+"/markers");
+    res.json(links);
+  });
   // GET Routes
   // --------------------------------------------------------
   // Retrieve records for all markers in the db
