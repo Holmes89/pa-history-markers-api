@@ -70,9 +70,15 @@ module.exports = function(app) {
     query.exec(function(err, markers){
       if(err) {
         res.send(err);
-      } else {
+      }
+      else {
+        var result = {};
+        result.data=[];
+        markers.forEach(function(item){
+          result.data.push(formatData(item));
+        });
         // If no errors are found, it responds with a JSON of all markers
-        res.json(markers);
+        res.json(result);
       }
     });
   });
@@ -83,10 +89,22 @@ module.exports = function(app) {
       if(err) {
         res.send(err);
       } else {
+        var result = {};
+        result.data=[];
+        result.data.push(formatData(markers));
         // If no errors are found, it responds with a JSON of all markers
-        res.json(markers);
+        res.json(result);
       }
     });
   });
 
 };
+function formatData(data){
+  data = data.toObject();
+  var obj = {};
+  obj.id = data["_id"];
+  delete data["_id"];
+  obj.type="marker";
+  obj.attributes = data;
+  return obj;
+}
