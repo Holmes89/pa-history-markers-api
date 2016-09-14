@@ -1,0 +1,16 @@
+language: node_js
+
+services:
+  - docker
+  
+node_js:
+  - "6.5.0"
+
+branches:
+  only:
+    - master
+
+after_success:
+  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker build -t holmes89/pa-history-markers-api .
+  - docker push holmes89/pa-history-markers-api
