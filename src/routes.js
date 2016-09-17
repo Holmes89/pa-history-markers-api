@@ -69,9 +69,7 @@ module.exports = function(app) {
       }
       query.limit(pageSize).skip(pageNumber);
     }
-    else{
-      query.limit(20);
-    }
+    
     console.log('Params ' + JSON.stringify(queryParams));
 
     query.exec(function(err, markers){
