@@ -1,4 +1,4 @@
-# Pennsylvania History Markers
+# Pennsylvania History Markers [![Build Status](https://travis-ci.org/Holmes89/pa-history-markers-api.svg?branch=master)](https://travis-ci.org/Holmes89/pa-history-markers-api)
 Full outline of functioning API will be published on a site in the near future.
 
 ## Prerequisites
