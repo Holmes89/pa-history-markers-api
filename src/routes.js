@@ -21,29 +21,41 @@ module.exports = function(app) {
     var filters = req.query.filter;
     var pages = req.query.page;
     // Uses Mongoose schema to run the search (empty conditions)
-    var queryParams = {};
 
+    var query = null;
     if(filters){
-      if(filters.county){
-        queryParams.county=filters.county;
+      if(filters.search){
+          query = Marker.find(
+              { $text : { $search : filters.search } },
+              { score : { $meta: "textScore" } }
+          ).sort({ score : { $meta : 'textScore' } });
       }
-      if(filters.latitude && filters.longitude){
-        var geo = {};
-        geo["$near"] = new Array(Number(filters.longitude), Number(filters.latitude));
-        geo["$maxDistance"]=10;
-        queryParams.coordinates = geo;
-      }
-      if(filters.markerType){
-        queryParams.markerType=filters.markerType;
-      }
-      if(filters.missing){
-        queryParams.missing=filters.missing;
-      }
-      if(filters.categories){
-        queryParams.categories=filters.categories;
+      else{
+        var queryParams = {};
+        if(filters.county){
+          queryParams.county=filters.county;
+        }
+        if(filters.latitude && filters.longitude){
+          var geo = {};
+          geo["$near"] = new Array(Number(filters.longitude), Number(filters.latitude));
+          geo["$maxDistance"]=10;
+          queryParams.coordinates = geo;
+        }
+        if(filters.markerType){
+          queryParams.markerType=filters.markerType;
+        }
+        if(filters.missing){
+          queryParams.missing=filters.missing;
+        }
+        if(filters.categories){
+          queryParams.categories=filters.categories;
+        }
+        query = Marker.find(queryParams);
       }
     }
-    var query = Marker.find(queryParams);
+    else{
+      query = Marker.find({});
+    }
     if(pages){
       var pageSize = pages["size"];
       if(pageSize){
@@ -69,7 +81,7 @@ module.exports = function(app) {
       }
       query.limit(pageSize).skip(pageNumber);
     }
-    
+
     console.log('Params ' + JSON.stringify(queryParams));
 
     query.exec(function(err, markers){
