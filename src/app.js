@@ -2,13 +2,14 @@
 var express         = require('express');
 var mongoose        = require('mongoose');
 var port            = process.env.PORT || 8080;
+var dbString        = process.env.DATABASE || 'mongodb://everyone:everyone@ds029426.mlab.com:29426/history-markers';
 var morgan          = require('morgan');
 var bodyParser      = require('body-parser');
 var methodOverride  = require('method-override');
 var app             = express();
 
 // Start by loading up all our mongoose models and connecting.
-mongoose.connect('mongodb://everyone:everyone@ds029426.mlab.com:29426/history-markers');
+mongoose.connect(dbString);
 
 app.use(express.static(__dirname + '/public'));                 // sets the static files location to public
 app.use(morgan('dev'));                                         // log with Morgan
