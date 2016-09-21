@@ -30,16 +30,19 @@ module.exports = function(app) {
               { score : { $meta: "textScore" } }
           ).sort({ score : { $meta : 'textScore' } });
       }
+      else if(filters.latitude && filters.longitude){
+        var distance = 10000;
+        if(filters.distance){
+          distance = Number(filters.distance);
+        }
+        query = Marker.find(
+            {coordinates: {$near :{$geometry :{type: 'Point', coordinates: [Number(filters.longitude) , Number(filters.latitude)]}, $maxDistance: distance}}}
+        );
+      }
       else{
         var queryParams = {};
         if(filters.county){
           queryParams.county=filters.county;
-        }
-        if(filters.latitude && filters.longitude){
-          var geo = {};
-          geo["$near"] = new Array(Number(filters.longitude), Number(filters.latitude));
-          geo["$maxDistance"]=10;
-          queryParams.coordinates = geo;
         }
         if(filters.markerType){
           queryParams.markerType=filters.markerType;
@@ -82,13 +85,12 @@ module.exports = function(app) {
       query.limit(pageSize).skip(pageNumber);
     }
 
-    console.log('Params ' + JSON.stringify(queryParams));
-
     query.exec(function(err, markers){
       if(err) {
         res.send(err);
       }
       else {
+        console.log('Size ' + markers.length);
         var result = {};
         result.data=[];
         markers.forEach(function(item){
